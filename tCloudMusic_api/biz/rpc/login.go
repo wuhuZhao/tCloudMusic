@@ -43,3 +43,14 @@ func (l *LoginRpc) Logout(ctx context.Context, username string) bool {
 	}
 	return resp.GetResult_()
 }
+
+// SignUp: user signup rpc interfaces
+func (l *LoginRpc) SignUp(ctx context.Context, username, password, email string) bool {
+	resp, err := l.client.SignUp(ctx, &api.SignUpRequest{Username: username, Password: password, Email: email})
+	klog.Infof("[SignUp] resp: %v\n", resp)
+	if err != nil {
+		klog.Errorf("[SignUp] get err from kitex server, err: %v\n", err.Error())
+		return false
+	}
+	return resp.GetResult_()
+}

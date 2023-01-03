@@ -13,6 +13,7 @@ import (
 type Client interface {
 	Login(ctx context.Context, request *api.LoginRequest, callOptions ...callopt.Option) (r *api.LoginReponse, err error)
 	Logout(ctx context.Context, request *api.LogoutRequest, callOptions ...callopt.Option) (r *api.LogoutResponse, err error)
+	SignUp(ctx context.Context, request *api.SignUpRequest, callOptions ...callopt.Option) (r *api.SignUpResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -52,4 +53,9 @@ func (p *kBizServiceClient) Login(ctx context.Context, request *api.LoginRequest
 func (p *kBizServiceClient) Logout(ctx context.Context, request *api.LogoutRequest, callOptions ...callopt.Option) (r *api.LogoutResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.Logout(ctx, request)
+}
+
+func (p *kBizServiceClient) SignUp(ctx context.Context, request *api.SignUpRequest, callOptions ...callopt.Option) (r *api.SignUpResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.SignUp(ctx, request)
 }

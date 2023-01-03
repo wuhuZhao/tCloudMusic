@@ -21,6 +21,7 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	methods := map[string]kitex.MethodInfo{
 		"Login":  kitex.NewMethodInfo(loginHandler, newBizServiceLoginArgs, newBizServiceLoginResult, false),
 		"Logout": kitex.NewMethodInfo(logoutHandler, newBizServiceLogoutArgs, newBizServiceLogoutResult, false),
+		"SignUp": kitex.NewMethodInfo(signUpHandler, newBizServiceSignUpArgs, newBizServiceSignUpResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "api",
@@ -72,6 +73,24 @@ func newBizServiceLogoutResult() interface{} {
 	return api.NewBizServiceLogoutResult()
 }
 
+func signUpHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.BizServiceSignUpArgs)
+	realResult := result.(*api.BizServiceSignUpResult)
+	success, err := handler.(api.BizService).SignUp(ctx, realArg.Request)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newBizServiceSignUpArgs() interface{} {
+	return api.NewBizServiceSignUpArgs()
+}
+
+func newBizServiceSignUpResult() interface{} {
+	return api.NewBizServiceSignUpResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -97,6 +116,16 @@ func (p *kClient) Logout(ctx context.Context, request *api.LogoutRequest) (r *ap
 	_args.Request = request
 	var _result api.BizServiceLogoutResult
 	if err = p.c.Call(ctx, "Logout", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) SignUp(ctx context.Context, request *api.SignUpRequest) (r *api.SignUpResponse, err error) {
+	var _args api.BizServiceSignUpArgs
+	_args.Request = request
+	var _result api.BizServiceSignUpResult
+	if err = p.c.Call(ctx, "SignUp", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
