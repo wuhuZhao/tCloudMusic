@@ -6,6 +6,7 @@ import (
 	"tCloudMusic_rpc/biz/dao"
 	"tCloudMusic_rpc/biz/model"
 	api "tCloudMusic_rpc/kitex_gen/tCloudMisc/biz/api"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -13,10 +14,11 @@ import (
 // BizServiceImpl implements the last service interface defined in the IDL.
 type BizServiceImpl struct {
 	userDao *dao.UserDao
+	redis   *common.Redis
 }
 
-func NewBizServiceImpl(db *gorm.DB) *BizServiceImpl {
-	return &BizServiceImpl{userDao: dao.NewUserDao(db)}
+func NewBizServiceImpl(db *gorm.DB, redis *common.Redis) *BizServiceImpl {
+	return &BizServiceImpl{userDao: dao.NewUserDao(db), redis: redis}
 }
 
 // Login implements the BizServiceImpl interface.
@@ -35,7 +37,12 @@ func (s *BizServiceImpl) Login(ctx context.Context, request *api.LoginRequest) (
 		resp.SetToken("")
 		return
 	}
-	//TODO: add redis token
+	err = s.redis.Insert(request.GetUsername(), token, time.Second*60*60*2)
+	if err != nil {
+		resp.SetResp(&api.Response{Code: -1, Msg: "insert token to redis error"})
+		resp.SetToken("")
+		return
+	}
 	resp.SetResp(&api.Response{Code: 1, Msg: "user exist"})
 	resp.SetToken(token)
 	return
@@ -45,6 +52,12 @@ func (s *BizServiceImpl) Login(ctx context.Context, request *api.LoginRequest) (
 func (s *BizServiceImpl) Logout(ctx context.Context, request *api.LogoutRequest) (resp *api.LogoutResponse, err error) {
 	// TODO: Your code here...
 	// TODO: add redis token to logout
+	err = s.redis.Delete(request.GetUsername())
+	if err != nil {
+		resp.SetResult_(false)
+		resp.SetResp(&api.Response{Code: -1, Msg: "logout error! remove token error"})
+		return
+	}
 	resp.SetResult_(true)
 	resp.SetResp(&api.Response{Code: 1, Msg: "logout success"})
 	return

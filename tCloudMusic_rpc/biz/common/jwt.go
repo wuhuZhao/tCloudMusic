@@ -17,7 +17,7 @@ type Claims struct {
 const TokenExpireDuration = time.Hour * 2
 
 // secrect: token secrect
-var secrect = []byte("biztokensecrect")
+var secrect = []byte("jiayouhuaweijiayouchina")
 
 // GenToken: username to token
 func GenToken(username string) (string, error) {

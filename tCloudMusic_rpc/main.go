@@ -2,6 +2,7 @@ package main
 
 import (
 	"net"
+	"tCloudMusic_rpc/biz/common"
 	api "tCloudMusic_rpc/kitex_gen/tCloudMisc/biz/api/bizservice"
 
 	"github.com/cloudwego/kitex/pkg/klog"
@@ -18,7 +19,16 @@ func main() {
 	if err != nil {
 		klog.Errorf("mysql connection error, err: %v\n", err.Error())
 	}
-	svr := api.NewServer(NewBizServiceImpl(mysql), server.WithServiceAddr(addr))
+	redis := &common.Redis{
+		RedisHost: "127.0.0.1",
+		RedisPort: 6379,
+		RedisAuth: "",
+		Database:  0,
+	}
+	if err := redis.Init(); err != nil {
+		klog.Errorf("redis connection error, err: %v\n", err.Error())
+	}
+	svr := api.NewServer(NewBizServiceImpl(mysql, redis), server.WithServiceAddr(addr))
 	if err := svr.Run(); err != nil {
 		klog.Errorf("kitex server start error, err: %v\n", err.Error())
 	}
