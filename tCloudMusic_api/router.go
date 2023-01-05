@@ -16,6 +16,7 @@ func customizedRegister(r *server.Hertz) {
 		lgHandler := login.NewLoginHandler()
 		userGroup.POST("/login", lgHandler.Login)
 		userGroup.POST("/logout", lgHandler.Logout)
+		userGroup.POST("/signup", lgHandler.SignUp)
 	}
 
 	// your code ...

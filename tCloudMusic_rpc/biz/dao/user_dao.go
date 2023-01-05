@@ -3,7 +3,6 @@ package dao
 import (
 	"tCloudMusic_rpc/biz/model"
 
-	"github.com/cloudwego/kitex/pkg/klog"
 	"gorm.io/gorm"
 )
 
@@ -25,15 +24,12 @@ func (u *UserDao) FindUserById(id uint) *model.User {
 // FindUserByUserNameAndPassword: give a username and password, check a user is or isn't exsited
 func (u *UserDao) FindUserByUserNameAndPassword(username, password string) *model.User {
 	user := model.User{}
-	u.db.Where("username = ? and password = ?", username, password).Find(&user)
+	u.db.Where("username = ?", username).First(&user)
 	return &user
 }
 
 // InsertUse: insert user to db
 func (u *UserDao) InsertUser(user *model.User) (*model.User, error) {
 	result := u.db.Create(user)
-	if result.RowsAffected != 0 {
-		klog.Errorf("gorm insert user error: %v\n", result.Error.Error())
-	}
 	return user, result.Error
 }

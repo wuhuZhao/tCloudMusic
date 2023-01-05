@@ -23,9 +23,8 @@ func NewBizServiceImpl(db *gorm.DB, redis *common.Redis) *BizServiceImpl {
 
 // Login implements the BizServiceImpl interface.
 func (s *BizServiceImpl) Login(ctx context.Context, request *api.LoginRequest) (resp *api.LoginReponse, err error) {
-	// TODO: Your code here...
-	// return
 	user := s.userDao.FindUserByUserNameAndPassword(request.GetUsername(), request.GetPassword())
+	resp = &api.LoginReponse{}
 	if user.Password != request.GetPassword() || user.Username != request.GetUsername() {
 		resp.SetResp(&api.Response{Code: -1, Msg: "user not exist"})
 		resp.SetToken("")
@@ -50,8 +49,7 @@ func (s *BizServiceImpl) Login(ctx context.Context, request *api.LoginRequest) (
 
 // Logout implements the BizServiceImpl interface.
 func (s *BizServiceImpl) Logout(ctx context.Context, request *api.LogoutRequest) (resp *api.LogoutResponse, err error) {
-	// TODO: Your code here...
-	// TODO: add redis token to logout
+	resp = &api.LogoutResponse{}
 	err = s.redis.Delete(request.GetUsername())
 	if err != nil {
 		resp.SetResult_(false)
@@ -67,6 +65,7 @@ func (s *BizServiceImpl) Logout(ctx context.Context, request *api.LogoutRequest)
 func (s *BizServiceImpl) SignUp(ctx context.Context, request *api.SignUpRequest) (resp *api.SignUpResponse, err error) {
 	user := model.User{Username: request.GetUsername(), Email: request.GetEmail(), Password: request.GetPassword()}
 	_, err = s.userDao.InsertUser(&user)
+	resp = &api.SignUpResponse{}
 	resp.SetResult_(true)
 	if err != nil {
 		resp.SetResult_(false)

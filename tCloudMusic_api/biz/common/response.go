@@ -1,14 +1,14 @@
 package common
 
 type Response struct {
-	data interface{}
-	msg  string
+	Data interface{} `json:"data"`
+	Msg  string      `json:"msg"`
 }
 
-func NewErrorResponse(msg string) *Response {
-	return &Response{data: "", msg: msg}
+func NewErrorResponse(msg string) Response {
+	return Response{Data: "", Msg: msg}
 }
 
-func NewSuccessResponse(data interface{}) *Response {
-	return &Response{data: data, msg: ""}
+func NewSuccessResponse(data interface{}) Response {
+	return Response{Data: data, Msg: ""}
 }
