@@ -38,8 +38,29 @@ struct SignUpResponse {
 }
 
 
+struct Music {
+    1: required string musicName;
+    2: required string musicAuthor;
+    3: required i32 id;
+    4: required string musicPath;
+    5: required i32 commentId;
+}
+
+struct GetMusicListRequest {
+    1: string musicName;
+    2: string musicAuthor;
+}
+
+struct GetMusicListResponse {
+    1: Response resp;
+    2: list<Music> musics;
+}
+
+
+
 service BizService {
     LoginReponse Login(1: LoginRequest request)
     LogoutResponse Logout(1: LogoutRequest request)
     SignUpResponse SignUp(1: SignUpRequest request)
+    GetMusicListResponse searchMusics(1: GetMusicListRequest request)
 }

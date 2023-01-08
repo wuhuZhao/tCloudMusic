@@ -3,11 +3,27 @@
 package main
 
 import (
+	"net"
+	"tCloudMusic_api/biz/consul"
+
 	"github.com/cloudwego/hertz/pkg/app/server"
+	"github.com/cloudwego/hertz/pkg/app/server/registry"
 )
 
 func main() {
-	h := server.Default()
+	r := &consul.ConsulRegistry{}
+	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8888")
+	if err != nil {
+		panic(err)
+	}
+	h := server.Default(
+		server.WithHostPorts(addr.String()),
+		server.WithRegistry(r, &registry.Info{
+			ServiceName: "TcloudMusicApi",
+			Addr:        addr,
+			Weight:      100,
+			Tags:        map[string]string{},
+		}))
 	register(h)
 	h.Spin()
 }

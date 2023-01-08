@@ -1691,12 +1691,929 @@ func (p *SignUpResponse) Field1DeepEqual(src bool) bool {
 	return true
 }
 
+type Music struct {
+	MusicName   string `thrift:"musicName,1,required" frugal:"1,required,string" json:"musicName"`
+	MusicAuthor string `thrift:"musicAuthor,2,required" frugal:"2,required,string" json:"musicAuthor"`
+	Id          int32  `thrift:"id,3,required" frugal:"3,required,i32" json:"id"`
+	MusicPath   string `thrift:"musicPath,4,required" frugal:"4,required,string" json:"musicPath"`
+	CommentId   int32  `thrift:"commentId,5,required" frugal:"5,required,i32" json:"commentId"`
+}
+
+func NewMusic() *Music {
+	return &Music{}
+}
+
+func (p *Music) InitDefault() {
+	*p = Music{}
+}
+
+func (p *Music) GetMusicName() (v string) {
+	return p.MusicName
+}
+
+func (p *Music) GetMusicAuthor() (v string) {
+	return p.MusicAuthor
+}
+
+func (p *Music) GetId() (v int32) {
+	return p.Id
+}
+
+func (p *Music) GetMusicPath() (v string) {
+	return p.MusicPath
+}
+
+func (p *Music) GetCommentId() (v int32) {
+	return p.CommentId
+}
+func (p *Music) SetMusicName(val string) {
+	p.MusicName = val
+}
+func (p *Music) SetMusicAuthor(val string) {
+	p.MusicAuthor = val
+}
+func (p *Music) SetId(val int32) {
+	p.Id = val
+}
+func (p *Music) SetMusicPath(val string) {
+	p.MusicPath = val
+}
+func (p *Music) SetCommentId(val int32) {
+	p.CommentId = val
+}
+
+var fieldIDToName_Music = map[int16]string{
+	1: "musicName",
+	2: "musicAuthor",
+	3: "id",
+	4: "musicPath",
+	5: "commentId",
+}
+
+func (p *Music) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+	var issetMusicName bool = false
+	var issetMusicAuthor bool = false
+	var issetId bool = false
+	var issetMusicPath bool = false
+	var issetCommentId bool = false
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetMusicName = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetMusicAuthor = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 3:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField3(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetId = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 4:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField4(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetMusicPath = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 5:
+			if fieldTypeId == thrift.I32 {
+				if err = p.ReadField5(iprot); err != nil {
+					goto ReadFieldError
+				}
+				issetCommentId = true
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	if !issetMusicName {
+		fieldId = 1
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetMusicAuthor {
+		fieldId = 2
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetId {
+		fieldId = 3
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetMusicPath {
+		fieldId = 4
+		goto RequiredFieldNotSetError
+	}
+
+	if !issetCommentId {
+		fieldId = 5
+		goto RequiredFieldNotSetError
+	}
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_Music[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+RequiredFieldNotSetError:
+	return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("required field %s is not set", fieldIDToName_Music[fieldId]))
+}
+
+func (p *Music) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.MusicName = v
+	}
+	return nil
+}
+
+func (p *Music) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.MusicAuthor = v
+	}
+	return nil
+}
+
+func (p *Music) ReadField3(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.Id = v
+	}
+	return nil
+}
+
+func (p *Music) ReadField4(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.MusicPath = v
+	}
+	return nil
+}
+
+func (p *Music) ReadField5(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI32(); err != nil {
+		return err
+	} else {
+		p.CommentId = v
+	}
+	return nil
+}
+
+func (p *Music) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("Music"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+		if err = p.writeField3(oprot); err != nil {
+			fieldId = 3
+			goto WriteFieldError
+		}
+		if err = p.writeField4(oprot); err != nil {
+			fieldId = 4
+			goto WriteFieldError
+		}
+		if err = p.writeField5(oprot); err != nil {
+			fieldId = 5
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *Music) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("musicName", thrift.STRING, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.MusicName); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *Music) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("musicAuthor", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.MusicAuthor); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *Music) writeField3(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("id", thrift.I32, 3); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.Id); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 3 end error: ", p), err)
+}
+
+func (p *Music) writeField4(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("musicPath", thrift.STRING, 4); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.MusicPath); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 4 end error: ", p), err)
+}
+
+func (p *Music) writeField5(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("commentId", thrift.I32, 5); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteI32(p.CommentId); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 5 end error: ", p), err)
+}
+
+func (p *Music) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("Music(%+v)", *p)
+}
+
+func (p *Music) DeepEqual(ano *Music) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.MusicName) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.MusicAuthor) {
+		return false
+	}
+	if !p.Field3DeepEqual(ano.Id) {
+		return false
+	}
+	if !p.Field4DeepEqual(ano.MusicPath) {
+		return false
+	}
+	if !p.Field5DeepEqual(ano.CommentId) {
+		return false
+	}
+	return true
+}
+
+func (p *Music) Field1DeepEqual(src string) bool {
+
+	if strings.Compare(p.MusicName, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *Music) Field2DeepEqual(src string) bool {
+
+	if strings.Compare(p.MusicAuthor, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *Music) Field3DeepEqual(src int32) bool {
+
+	if p.Id != src {
+		return false
+	}
+	return true
+}
+func (p *Music) Field4DeepEqual(src string) bool {
+
+	if strings.Compare(p.MusicPath, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *Music) Field5DeepEqual(src int32) bool {
+
+	if p.CommentId != src {
+		return false
+	}
+	return true
+}
+
+type GetMusicListRequest struct {
+	MusicName   string `thrift:"musicName,1" frugal:"1,default,string" json:"musicName"`
+	MusicAuthor string `thrift:"musicAuthor,2" frugal:"2,default,string" json:"musicAuthor"`
+}
+
+func NewGetMusicListRequest() *GetMusicListRequest {
+	return &GetMusicListRequest{}
+}
+
+func (p *GetMusicListRequest) InitDefault() {
+	*p = GetMusicListRequest{}
+}
+
+func (p *GetMusicListRequest) GetMusicName() (v string) {
+	return p.MusicName
+}
+
+func (p *GetMusicListRequest) GetMusicAuthor() (v string) {
+	return p.MusicAuthor
+}
+func (p *GetMusicListRequest) SetMusicName(val string) {
+	p.MusicName = val
+}
+func (p *GetMusicListRequest) SetMusicAuthor(val string) {
+	p.MusicAuthor = val
+}
+
+var fieldIDToName_GetMusicListRequest = map[int16]string{
+	1: "musicName",
+	2: "musicAuthor",
+}
+
+func (p *GetMusicListRequest) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.STRING {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetMusicListRequest[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetMusicListRequest) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.MusicName = v
+	}
+	return nil
+}
+
+func (p *GetMusicListRequest) ReadField2(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadString(); err != nil {
+		return err
+	} else {
+		p.MusicAuthor = v
+	}
+	return nil
+}
+
+func (p *GetMusicListRequest) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetMusicListRequest"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetMusicListRequest) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("musicName", thrift.STRING, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.MusicName); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetMusicListRequest) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("musicAuthor", thrift.STRING, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteString(p.MusicAuthor); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetMusicListRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetMusicListRequest(%+v)", *p)
+}
+
+func (p *GetMusicListRequest) DeepEqual(ano *GetMusicListRequest) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.MusicName) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.MusicAuthor) {
+		return false
+	}
+	return true
+}
+
+func (p *GetMusicListRequest) Field1DeepEqual(src string) bool {
+
+	if strings.Compare(p.MusicName, src) != 0 {
+		return false
+	}
+	return true
+}
+func (p *GetMusicListRequest) Field2DeepEqual(src string) bool {
+
+	if strings.Compare(p.MusicAuthor, src) != 0 {
+		return false
+	}
+	return true
+}
+
+type GetMusicListResponse struct {
+	Resp   *Response `thrift:"resp,1" frugal:"1,default,Response" json:"resp"`
+	Musics []*Music  `thrift:"musics,2" frugal:"2,default,list<Music>" json:"musics"`
+}
+
+func NewGetMusicListResponse() *GetMusicListResponse {
+	return &GetMusicListResponse{}
+}
+
+func (p *GetMusicListResponse) InitDefault() {
+	*p = GetMusicListResponse{}
+}
+
+var GetMusicListResponse_Resp_DEFAULT *Response
+
+func (p *GetMusicListResponse) GetResp() (v *Response) {
+	if !p.IsSetResp() {
+		return GetMusicListResponse_Resp_DEFAULT
+	}
+	return p.Resp
+}
+
+func (p *GetMusicListResponse) GetMusics() (v []*Music) {
+	return p.Musics
+}
+func (p *GetMusicListResponse) SetResp(val *Response) {
+	p.Resp = val
+}
+func (p *GetMusicListResponse) SetMusics(val []*Music) {
+	p.Musics = val
+}
+
+var fieldIDToName_GetMusicListResponse = map[int16]string{
+	1: "resp",
+	2: "musics",
+}
+
+func (p *GetMusicListResponse) IsSetResp() bool {
+	return p.Resp != nil
+}
+
+func (p *GetMusicListResponse) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		case 2:
+			if fieldTypeId == thrift.LIST {
+				if err = p.ReadField2(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_GetMusicListResponse[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *GetMusicListResponse) ReadField1(iprot thrift.TProtocol) error {
+	p.Resp = NewResponse()
+	if err := p.Resp.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetMusicListResponse) ReadField2(iprot thrift.TProtocol) error {
+	_, size, err := iprot.ReadListBegin()
+	if err != nil {
+		return err
+	}
+	p.Musics = make([]*Music, 0, size)
+	for i := 0; i < size; i++ {
+		_elem := NewMusic()
+		if err := _elem.Read(iprot); err != nil {
+			return err
+		}
+
+		p.Musics = append(p.Musics, _elem)
+	}
+	if err := iprot.ReadListEnd(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *GetMusicListResponse) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("GetMusicListResponse"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+		if err = p.writeField2(oprot); err != nil {
+			fieldId = 2
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *GetMusicListResponse) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("resp", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Resp.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *GetMusicListResponse) writeField2(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("musics", thrift.LIST, 2); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p.Musics)); err != nil {
+		return err
+	}
+	for _, v := range p.Musics {
+		if err := v.Write(oprot); err != nil {
+			return err
+		}
+	}
+	if err := oprot.WriteListEnd(); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 2 end error: ", p), err)
+}
+
+func (p *GetMusicListResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetMusicListResponse(%+v)", *p)
+}
+
+func (p *GetMusicListResponse) DeepEqual(ano *GetMusicListResponse) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Resp) {
+		return false
+	}
+	if !p.Field2DeepEqual(ano.Musics) {
+		return false
+	}
+	return true
+}
+
+func (p *GetMusicListResponse) Field1DeepEqual(src *Response) bool {
+
+	if !p.Resp.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+func (p *GetMusicListResponse) Field2DeepEqual(src []*Music) bool {
+
+	if len(p.Musics) != len(src) {
+		return false
+	}
+	for i, v := range p.Musics {
+		_src := src[i]
+		if !v.DeepEqual(_src) {
+			return false
+		}
+	}
+	return true
+}
+
 type BizService interface {
 	Login(ctx context.Context, request *LoginRequest) (r *LoginReponse, err error)
 
 	Logout(ctx context.Context, request *LogoutRequest) (r *LogoutResponse, err error)
 
 	SignUp(ctx context.Context, request *SignUpRequest) (r *SignUpResponse, err error)
+
+	SearchMusics(ctx context.Context, request *GetMusicListRequest) (r *GetMusicListResponse, err error)
 }
 
 type BizServiceClient struct {
@@ -1752,6 +2669,15 @@ func (p *BizServiceClient) SignUp(ctx context.Context, request *SignUpRequest) (
 	}
 	return _result.GetSuccess(), nil
 }
+func (p *BizServiceClient) SearchMusics(ctx context.Context, request *GetMusicListRequest) (r *GetMusicListResponse, err error) {
+	var _args BizServiceSearchMusicsArgs
+	_args.Request = request
+	var _result BizServiceSearchMusicsResult
+	if err = p.Client_().Call(ctx, "searchMusics", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
 
 type BizServiceProcessor struct {
 	processorMap map[string]thrift.TProcessorFunction
@@ -1776,6 +2702,7 @@ func NewBizServiceProcessor(handler BizService) *BizServiceProcessor {
 	self.AddToProcessorMap("Login", &bizServiceProcessorLogin{handler: handler})
 	self.AddToProcessorMap("Logout", &bizServiceProcessorLogout{handler: handler})
 	self.AddToProcessorMap("SignUp", &bizServiceProcessorSignUp{handler: handler})
+	self.AddToProcessorMap("searchMusics", &bizServiceProcessorSearchMusics{handler: handler})
 	return self
 }
 func (p *BizServiceProcessor) Process(ctx context.Context, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
@@ -1923,6 +2850,54 @@ func (p *bizServiceProcessorSignUp) Process(ctx context.Context, seqId int32, ip
 		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("SignUp", thrift.REPLY, seqId); err2 != nil {
+		err = err2
+	}
+	if err2 = result.Write(oprot); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
+		err = err2
+	}
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
+		err = err2
+	}
+	if err != nil {
+		return
+	}
+	return true, err
+}
+
+type bizServiceProcessorSearchMusics struct {
+	handler BizService
+}
+
+func (p *bizServiceProcessorSearchMusics) Process(ctx context.Context, seqId int32, iprot, oprot thrift.TProtocol) (success bool, err thrift.TException) {
+	args := BizServiceSearchMusicsArgs{}
+	if err = args.Read(iprot); err != nil {
+		iprot.ReadMessageEnd()
+		x := thrift.NewTApplicationException(thrift.PROTOCOL_ERROR, err.Error())
+		oprot.WriteMessageBegin("searchMusics", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return false, err
+	}
+
+	iprot.ReadMessageEnd()
+	var err2 error
+	result := BizServiceSearchMusicsResult{}
+	var retval *GetMusicListResponse
+	if retval, err2 = p.handler.SearchMusics(ctx, args.Request); err2 != nil {
+		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing searchMusics: "+err2.Error())
+		oprot.WriteMessageBegin("searchMusics", thrift.EXCEPTION, seqId)
+		x.Write(oprot)
+		oprot.WriteMessageEnd()
+		oprot.Flush(ctx)
+		return true, err2
+	} else {
+		result.Success = retval
+	}
+	if err2 = oprot.WriteMessageBegin("searchMusics", thrift.REPLY, seqId); err2 != nil {
 		err = err2
 	}
 	if err2 = result.Write(oprot); err == nil && err2 != nil {
@@ -2971,6 +3946,352 @@ func (p *BizServiceSignUpResult) DeepEqual(ano *BizServiceSignUpResult) bool {
 }
 
 func (p *BizServiceSignUpResult) Field0DeepEqual(src *SignUpResponse) bool {
+
+	if !p.Success.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type BizServiceSearchMusicsArgs struct {
+	Request *GetMusicListRequest `thrift:"request,1" frugal:"1,default,GetMusicListRequest" json:"request"`
+}
+
+func NewBizServiceSearchMusicsArgs() *BizServiceSearchMusicsArgs {
+	return &BizServiceSearchMusicsArgs{}
+}
+
+func (p *BizServiceSearchMusicsArgs) InitDefault() {
+	*p = BizServiceSearchMusicsArgs{}
+}
+
+var BizServiceSearchMusicsArgs_Request_DEFAULT *GetMusicListRequest
+
+func (p *BizServiceSearchMusicsArgs) GetRequest() (v *GetMusicListRequest) {
+	if !p.IsSetRequest() {
+		return BizServiceSearchMusicsArgs_Request_DEFAULT
+	}
+	return p.Request
+}
+func (p *BizServiceSearchMusicsArgs) SetRequest(val *GetMusicListRequest) {
+	p.Request = val
+}
+
+var fieldIDToName_BizServiceSearchMusicsArgs = map[int16]string{
+	1: "request",
+}
+
+func (p *BizServiceSearchMusicsArgs) IsSetRequest() bool {
+	return p.Request != nil
+}
+
+func (p *BizServiceSearchMusicsArgs) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 1:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField1(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_BizServiceSearchMusicsArgs[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *BizServiceSearchMusicsArgs) ReadField1(iprot thrift.TProtocol) error {
+	p.Request = NewGetMusicListRequest()
+	if err := p.Request.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *BizServiceSearchMusicsArgs) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("searchMusics_args"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField1(oprot); err != nil {
+			fieldId = 1
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *BizServiceSearchMusicsArgs) writeField1(oprot thrift.TProtocol) (err error) {
+	if err = oprot.WriteFieldBegin("request", thrift.STRUCT, 1); err != nil {
+		goto WriteFieldBeginError
+	}
+	if err := p.Request.Write(oprot); err != nil {
+		return err
+	}
+	if err = oprot.WriteFieldEnd(); err != nil {
+		goto WriteFieldEndError
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 1 end error: ", p), err)
+}
+
+func (p *BizServiceSearchMusicsArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BizServiceSearchMusicsArgs(%+v)", *p)
+}
+
+func (p *BizServiceSearchMusicsArgs) DeepEqual(ano *BizServiceSearchMusicsArgs) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field1DeepEqual(ano.Request) {
+		return false
+	}
+	return true
+}
+
+func (p *BizServiceSearchMusicsArgs) Field1DeepEqual(src *GetMusicListRequest) bool {
+
+	if !p.Request.DeepEqual(src) {
+		return false
+	}
+	return true
+}
+
+type BizServiceSearchMusicsResult struct {
+	Success *GetMusicListResponse `thrift:"success,0,optional" frugal:"0,optional,GetMusicListResponse" json:"success,omitempty"`
+}
+
+func NewBizServiceSearchMusicsResult() *BizServiceSearchMusicsResult {
+	return &BizServiceSearchMusicsResult{}
+}
+
+func (p *BizServiceSearchMusicsResult) InitDefault() {
+	*p = BizServiceSearchMusicsResult{}
+}
+
+var BizServiceSearchMusicsResult_Success_DEFAULT *GetMusicListResponse
+
+func (p *BizServiceSearchMusicsResult) GetSuccess() (v *GetMusicListResponse) {
+	if !p.IsSetSuccess() {
+		return BizServiceSearchMusicsResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *BizServiceSearchMusicsResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetMusicListResponse)
+}
+
+var fieldIDToName_BizServiceSearchMusicsResult = map[int16]string{
+	0: "success",
+}
+
+func (p *BizServiceSearchMusicsResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *BizServiceSearchMusicsResult) Read(iprot thrift.TProtocol) (err error) {
+
+	var fieldTypeId thrift.TType
+	var fieldId int16
+
+	if _, err = iprot.ReadStructBegin(); err != nil {
+		goto ReadStructBeginError
+	}
+
+	for {
+		_, fieldTypeId, fieldId, err = iprot.ReadFieldBegin()
+		if err != nil {
+			goto ReadFieldBeginError
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+
+		switch fieldId {
+		case 0:
+			if fieldTypeId == thrift.STRUCT {
+				if err = p.ReadField0(iprot); err != nil {
+					goto ReadFieldError
+				}
+			} else {
+				if err = iprot.Skip(fieldTypeId); err != nil {
+					goto SkipFieldError
+				}
+			}
+		default:
+			if err = iprot.Skip(fieldTypeId); err != nil {
+				goto SkipFieldError
+			}
+		}
+
+		if err = iprot.ReadFieldEnd(); err != nil {
+			goto ReadFieldEndError
+		}
+	}
+	if err = iprot.ReadStructEnd(); err != nil {
+		goto ReadStructEndError
+	}
+
+	return nil
+ReadStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct begin error: ", p), err)
+ReadFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d begin error: ", p, fieldId), err)
+ReadFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T read field %d '%s' error: ", p, fieldId, fieldIDToName_BizServiceSearchMusicsResult[fieldId]), err)
+SkipFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T field %d skip type %d error: ", p, fieldId, fieldTypeId), err)
+
+ReadFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read field end error", p), err)
+ReadStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+}
+
+func (p *BizServiceSearchMusicsResult) ReadField0(iprot thrift.TProtocol) error {
+	p.Success = NewGetMusicListResponse()
+	if err := p.Success.Read(iprot); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *BizServiceSearchMusicsResult) Write(oprot thrift.TProtocol) (err error) {
+	var fieldId int16
+	if err = oprot.WriteStructBegin("searchMusics_result"); err != nil {
+		goto WriteStructBeginError
+	}
+	if p != nil {
+		if err = p.writeField0(oprot); err != nil {
+			fieldId = 0
+			goto WriteFieldError
+		}
+
+	}
+	if err = oprot.WriteFieldStop(); err != nil {
+		goto WriteFieldStopError
+	}
+	if err = oprot.WriteStructEnd(); err != nil {
+		goto WriteStructEndError
+	}
+	return nil
+WriteStructBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+WriteFieldError:
+	return thrift.PrependError(fmt.Sprintf("%T write field %d error: ", p, fieldId), err)
+WriteFieldStopError:
+	return thrift.PrependError(fmt.Sprintf("%T write field stop error: ", p), err)
+WriteStructEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write struct end error: ", p), err)
+}
+
+func (p *BizServiceSearchMusicsResult) writeField0(oprot thrift.TProtocol) (err error) {
+	if p.IsSetSuccess() {
+		if err = oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
+			goto WriteFieldBeginError
+		}
+		if err := p.Success.Write(oprot); err != nil {
+			return err
+		}
+		if err = oprot.WriteFieldEnd(); err != nil {
+			goto WriteFieldEndError
+		}
+	}
+	return nil
+WriteFieldBeginError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 begin error: ", p), err)
+WriteFieldEndError:
+	return thrift.PrependError(fmt.Sprintf("%T write field 0 end error: ", p), err)
+}
+
+func (p *BizServiceSearchMusicsResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BizServiceSearchMusicsResult(%+v)", *p)
+}
+
+func (p *BizServiceSearchMusicsResult) DeepEqual(ano *BizServiceSearchMusicsResult) bool {
+	if p == ano {
+		return true
+	} else if p == nil || ano == nil {
+		return false
+	}
+	if !p.Field0DeepEqual(ano.Success) {
+		return false
+	}
+	return true
+}
+
+func (p *BizServiceSearchMusicsResult) Field0DeepEqual(src *GetMusicListResponse) bool {
 
 	if !p.Success.DeepEqual(src) {
 		return false

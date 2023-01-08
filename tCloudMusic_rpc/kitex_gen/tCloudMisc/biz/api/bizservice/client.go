@@ -14,6 +14,7 @@ type Client interface {
 	Login(ctx context.Context, request *api.LoginRequest, callOptions ...callopt.Option) (r *api.LoginReponse, err error)
 	Logout(ctx context.Context, request *api.LogoutRequest, callOptions ...callopt.Option) (r *api.LogoutResponse, err error)
 	SignUp(ctx context.Context, request *api.SignUpRequest, callOptions ...callopt.Option) (r *api.SignUpResponse, err error)
+	SearchMusics(ctx context.Context, request *api.GetMusicListRequest, callOptions ...callopt.Option) (r *api.GetMusicListResponse, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -58,4 +59,9 @@ func (p *kBizServiceClient) Logout(ctx context.Context, request *api.LogoutReque
 func (p *kBizServiceClient) SignUp(ctx context.Context, request *api.SignUpRequest, callOptions ...callopt.Option) (r *api.SignUpResponse, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.SignUp(ctx, request)
+}
+
+func (p *kBizServiceClient) SearchMusics(ctx context.Context, request *api.GetMusicListRequest, callOptions ...callopt.Option) (r *api.GetMusicListResponse, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.SearchMusics(ctx, request)
 }

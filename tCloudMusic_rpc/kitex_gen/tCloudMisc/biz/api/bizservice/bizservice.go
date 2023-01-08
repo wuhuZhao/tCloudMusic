@@ -19,9 +19,10 @@ func NewServiceInfo() *kitex.ServiceInfo {
 	serviceName := "BizService"
 	handlerType := (*api.BizService)(nil)
 	methods := map[string]kitex.MethodInfo{
-		"Login":  kitex.NewMethodInfo(loginHandler, newBizServiceLoginArgs, newBizServiceLoginResult, false),
-		"Logout": kitex.NewMethodInfo(logoutHandler, newBizServiceLogoutArgs, newBizServiceLogoutResult, false),
-		"SignUp": kitex.NewMethodInfo(signUpHandler, newBizServiceSignUpArgs, newBizServiceSignUpResult, false),
+		"Login":        kitex.NewMethodInfo(loginHandler, newBizServiceLoginArgs, newBizServiceLoginResult, false),
+		"Logout":       kitex.NewMethodInfo(logoutHandler, newBizServiceLogoutArgs, newBizServiceLogoutResult, false),
+		"SignUp":       kitex.NewMethodInfo(signUpHandler, newBizServiceSignUpArgs, newBizServiceSignUpResult, false),
+		"searchMusics": kitex.NewMethodInfo(searchMusicsHandler, newBizServiceSearchMusicsArgs, newBizServiceSearchMusicsResult, false),
 	}
 	extra := map[string]interface{}{
 		"PackageName": "api",
@@ -91,6 +92,24 @@ func newBizServiceSignUpResult() interface{} {
 	return api.NewBizServiceSignUpResult()
 }
 
+func searchMusicsHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	realArg := arg.(*api.BizServiceSearchMusicsArgs)
+	realResult := result.(*api.BizServiceSearchMusicsResult)
+	success, err := handler.(api.BizService).SearchMusics(ctx, realArg.Request)
+	if err != nil {
+		return err
+	}
+	realResult.Success = success
+	return nil
+}
+func newBizServiceSearchMusicsArgs() interface{} {
+	return api.NewBizServiceSearchMusicsArgs()
+}
+
+func newBizServiceSearchMusicsResult() interface{} {
+	return api.NewBizServiceSearchMusicsResult()
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -126,6 +145,16 @@ func (p *kClient) SignUp(ctx context.Context, request *api.SignUpRequest) (r *ap
 	_args.Request = request
 	var _result api.BizServiceSignUpResult
 	if err = p.c.Call(ctx, "SignUp", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) SearchMusics(ctx context.Context, request *api.GetMusicListRequest) (r *api.GetMusicListResponse, err error) {
+	var _args api.BizServiceSearchMusicsArgs
+	_args.Request = request
+	var _result api.BizServiceSearchMusicsResult
+	if err = p.c.Call(ctx, "searchMusics", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil
